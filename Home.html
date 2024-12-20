@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Delicious Bites</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Arial', sans-serif;
+            color: #333;
+            background-color: lightgreen;
+        }
+
+        header {
+            background-color: lightgreen;
+            color: darkgreen;
+            padding: 20px 10%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 2em;
+        }
+
+        nav ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            gap: 15px;
+        }
+
+        nav ul li {
+            font-size: 1em;
+        }
+
+        nav ul li a {
+            color: darkgreen;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        nav ul li a:hover {
+            color: #f1c40f;
+        }
+
+        .hero {
+            background-image: url('bg.avif'); /* Replace with your image */
+            background-size: cover;
+            background-position: center;
+            height: 70vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            text-align: center;
+            padding: 20px;
+        }
+
+        .hero h2 {
+            font-size: 3em;
+            margin: 0;
+        }
+
+        .hero p {
+            font-size: 1.5em;
+        }
+
+        .cta-button {
+            background-color:green;
+            color: white;
+            padding: 10px 20px;
+            text-decoration: none;
+            font-size: 1.2em;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+
+        .cta-button:hover {
+            background-color:lightgreen;
+            color: black;
+        }
+
+        .content {
+            padding: 40px 10%;
+        }
+
+        .content h3 {
+            font-size: 2em;
+            margin-bottom: 20px;
+        }
+
+        footer {
+            background-color: #333;
+            color: white;
+            text-align: center;
+            padding: 20px;
+            margin-top: 40px;
+        }
+
+        footer p {
+            margin: 0;
+        }
+        /* test*/
+        .gallery-container {
+            padding: 20px;
+            background-color: transparent;
+        }
+
+        .product-scroll {
+            display: flex;
+            overflow-x: auto;
+            scroll-behavior: smooth;
+            gap: 15px;
+            padding: 20px;
+        }
+
+        .product {
+            flex: 0 0 auto;
+            width: 200px;
+            height: 200px;
+            cursor: pointer;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s;
+        }
+
+        .product img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .product:hover {
+            transform: scale(1.05);
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .modal img {
+            max-width: 100%;
+            max-height: 100%;
+            border-radius: 12px;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: white;
+            border: none;
+            padding: 10px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 1.5em;
+            line-height: 1;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
+        .buy
+        {
+            position: absolute;
+            bottom:100px;
+            align-items: center;
+            background: white;
+            border: none;
+            padding: 10px;
+            border-radius: 12px;
+            cursor: pointer;
+            font-size: 1.5em;
+            line-height: 1;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
+
+        /* test 2*/
+        .sidebar
+{
+    position: fixed;
+    top: 0;
+    right: 10;
+    height: 100vh;
+    width: 259px;
+    z-index: 999;
+    background-color:rgba(255,255,255,0,2);/*rgba(255,255,255,0,2)*/
+    backdrop-filter: blur(10px);
+    box-shadow: -10px 0 10px rgba(0,0,0,0.1);
+    display: none;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+}
+.sidebar li{
+    width: 100%;
+}
+.sidebar a{
+    width: 100%;
+}
+.menu
+{
+    display: none;
+}
+@media(max-width:800px)
+{
+    .hideOnMobile
+    {
+        display: none;
+    }
+    .menu
+    {
+        display:block;
+    }
+}
+@media(max-width:400px)
+{
+    .sidebar
+    {
+        width: 100%;
+    }
+}
+
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Delicious Bites</h1>
+        <nav>
+            <ul class="sidebar">
+                <li onclick=hideSidebar() class="sign"><a href="#"><svg xmlns="http://www.w3.org/2000/svg" height="26px" viewBox="0 -960 960 960" width="26px" fill="#5f6368"><path d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z"/></svg></a></li>
+                <li><a href="#menu">Menu</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+            <ul>
+                <li class="hideOnMobile"><a href="#menu">Menu</a></li>
+                <li class="hideOnMobile"><a href="#about">About</a></li>
+                <li class="hideOnMobile"><a href="#contact">Contact</a></li>
+                <li class="menu" onclick=ShowSidebar()><a href="#"><svg xmlns="http://www.w3.org/2000/svg" height="26px" viewBox="0 -950 950 950" width="26px" fill="#5f6368" color="white"><path d="M120-240v-80h720v80H120Zm0-200v-80h720v80H120Zm0-200v-80h720v80H120Z"/></svg></a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <section class="hero">
+        <div>
+            <h2>Welcome to Delicious Bites</h2>
+            <p>Your destination for the most delightful dishes in town.</p>
+            <a href="#menu" class="cta-button">Explore Our Menu</a>
+        </div>
+    </section>
+
+    <section id="menu" class="content">
+        <h3>Our Menu</h3>
+   
+<div class="gallery-container">
+    <div class="product-scroll">
+        <div class="product" id="pd1"><img src="img1.jfif" alt="Product 1"></div>
+        <div class="product" id="pd2"><img src="img2.jfif" alt="Product 2"></div>
+        <div class="product" id="pd3"><img src="img3.jfif" alt="Product 3"></div>
+        <div class="product" id="pd4"><img src="img4.jfif" alt="Product 4"></div>
+        <div class="product" id="pd5"><img src="img5.jfif" alt="Product 5"></div>
+        <div class="product" id="pd6"><img src="img1.jfif" alt="Product 6"></div>
+        <div class="product" id="pd7"><img src="img2.jfif" alt="Product 7"></div>
+        <div class="product" id="pd8"><img src="img3.jfif" alt="Product 8"></div>
+        <div class="product" id="pd9"><img src="img4.jfif" alt="Product 9"></div>
+        <div class="product" id="pd10"><img src="img5.jfif" alt="Product 10"></div>
+    </div>
+</div>
+
+<div class="modal" id="modal">
+    <button class="close-btn" id="closeBtn">&times;</button>
+    <img id="modalImage" src="" alt="Full Product View">
+    <button class="buy" id="buy-p">BUY</button>
+</div>
+
+        <p>Discover our wide selection of delicious meals crafted with the finest ingredients.</p>
+    </section>
+
+    <section id="about" class="content">
+        <h3>About Us</h3>
+        <p>At Delicious Bites, we are passionate about providing great food and an unforgettable dining experience.</p>
+    </section>
+
+    <section id="contact" class="content">
+        <h3>Contact Us</h3>
+        <p>We’d love to hear from you! Reach us at info@deliciousbites.com or call us at (555) 555-5555.</p>
+    </section>
+
+    <footer>
+        <p>&copy; 2024 Delicious Bites. All Rights Reserved.</p>
+    </footer>
+
+    <script>
+        document.querySelectorAll('nav ul li a').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href').substring(1);
+                document.getElementById(targetId).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+    </script>
+    <script>
+        const products = document.querySelectorAll('.product img');
+        const modal = document.getElementById('modal');
+        const modalImage = document.getElementById('modalImage');
+        const closeBtn = document.getElementById('closeBtn');
+    
+        products.forEach(product => {
+            product.addEventListener('click', () => {
+                modalImage.src = product.src;
+                modal.classList.add('active');
+            });
+        });
+    
+        closeBtn.addEventListener('click', () => {
+            modal.classList.remove('active');
+        });
+    
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) {
+                modal.classList.remove('active');
+            }
+        });
+        function ShowSidebar()
+        {
+            const sidebar=document.querySelector('.sidebar')
+            sidebar.style.display='flex'
+        }
+        function hideSidebar()
+        {
+            const sidebar=document.querySelector('.sidebar')
+            sidebar.style.display='none'
+        }
+
+    </script>
+</body>
+</html>
